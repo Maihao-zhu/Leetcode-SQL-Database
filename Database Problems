@@ -78,6 +78,61 @@ Select distinct Num as ConsecutiveNums
 from Logs
 where (Id + 1, Num) in (select * from Logs) and (Id + 2, Num) in (select * from Logs)
 
+Date: Dec 16 2021
+178. Rank Scores
+Write an SQL query to rank the scores. The ranking should be calculated according to the following rules:
+The scores should be ranked from the highest to the lowest.
+If there is a tie between two scores, both should have the same ranking.
+After a tie, the next ranking number should be the next consecutive integer value. In other words, there should be no holes between ranks.
+My solution(wrong):
+SELECT Score, rank(Score) over (order by id ) AS ranking 
+FROM Scores 
+ORDER BY Score
+
+Solution1:
+SELECT score, dense_rank() over (order by score DESC) as 'rank'
+FROM Scores
+
+Note:
+1. dense_rank/rank/row_number的用法区别： https://blog.csdn.net/u011726005/article/details/94592866
+2. over（）括号里面应该排序，而不是在末尾加orderby
+3. rank涉及keyword，因此要加引号
+
+184. Department Highest Salary
+Write an SQL query to find employees who have the highest salary in each of the departments.
+
+My solution(wrong):
+with cte as(SELECT rank() over(Partrition by Department order by salary DESC) as rank1
+FROM Employee e
+JOIN Department d
+ON e.departmentId=d.id                              
+) a
+
+SELECT d.name AS Department, e.name AS Employee, e.salary as Salary
+FROM Employee e
+JOIN Department d
+ON e.departmentId=d.id
+WHERE a.rank1=1
+
+My solution(correct)
+select Department,Employee,Salary
+from(
+SELECT d.name AS Department, e.name AS Employee, e.salary as Salary, 
+rank() over(partition by d.name order by e.salary DESC) as rn
+FROM Employee e
+JOIN Department d
+ON e.departmentId=d.id
+) a
+where rn=1
+
+Runtime: 502 ms
+Notes:
+-typo error: partition by 
+-window function cannot be used in where clause
+
+
+
+
 
  
  
