@@ -45,6 +45,23 @@ Note:
  line 2: join on and 
 -When it comes to compare with themselves/find consecutive numbers, need to use self-join.
 -Everytime，when finishing writting code, need to look back and sort the logic to see if anything else need to be added in the query: eg. distinct
+
+Solution2: window functions 
+SELECT DISTINCT num AS ConsecutiveNums
+FROM (
+    SELECT num,
+        LEAD(num) OVER (ORDER BY id)  AS next,
+        LAG(num) OVER (ORDER BY id)  AS prev
+    FROM logs
+    ) tb1
+WHERE num = next AND next = prev
+
+Time/Efficiency:533 ms
+Note:
+-Lead over partrition by and lag over partrition by 
+ lead() to extract the next row of number
+ lag() to extract the pre row of number
+ 
  
 
 
