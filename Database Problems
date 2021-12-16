@@ -130,6 +130,51 @@ Notes:
 -typo error: partition by 
 -window function cannot be used in where clause
 
+185. Department Top Three Salaries
+My solution(correct)
+select Department,Employee,Salary
+from(
+SELECT d.name AS Department, e.name AS Employee, e.salary as Salary, 
+dense_rank() over(partition by d.name order by e.salary DESC) as rn
+FROM Employee e
+JOIN Department d
+ON e.departmentId=d.id
+) a
+where rn<=3
+Runtime: 149 ms
+
+?question:为什么用rank不能accept，结果是一样的
+
+1511. Customer Order Frequency
+Write an SQL query to report the customer_id and customer_name of customers who have spent at least $100 in each month of June and July 2020.
+My answer(wrong):
+SELECT c.customer_id,c.name, sum(quantity*price) as total
+FROM customers c
+JOIN orders o ON c.customer_id=o.customer_id 
+JOIN product p ON p.product_id=o.product_id
+Where substring(order_date,5,2) in ('06','07') 
+Group by customer_id,name
+having total>=100
+
+Notes:
+1.having/where/group by的顺序
+2.如何提取日期的月份，天，以及年
+
+solution1:
+SELECT customer_id, name
+FROM (
+    SELECT c.customer_id, c.name, 
+    SUM(CASE WHEN LEFT(o.order_date, 7) = '2020-06' THEN p.price*o.quantity ELSE 0 END) AS t1, 
+    SUM(CASE WHEN LEFT(o.order_date, 7) = '2020-07' THEN p.price*o.quantity ELSE 0 END) AS t2
+    FROM customers c
+    JOIN orders o
+    ON c.customer_id = o.customer_id
+    JOIN product p
+    ON p.product_id = o.product_id
+    GROUP BY 1
+    ) tmp
+WHERE t1 >= 100 AND t2 >= 100
+
 
 
 
