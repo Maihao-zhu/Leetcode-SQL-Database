@@ -175,6 +175,10 @@ FROM (
     ) tmp
 WHERE t1 >= 100 AND t2 >= 100
 
+？question：为什么这里只group by 1个量，不是应该除了sum之外都需要被group by吗？
+notes：
+1.使用left来截取日期函数
+
 
 
 
