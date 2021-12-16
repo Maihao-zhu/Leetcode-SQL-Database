@@ -61,11 +61,24 @@ Note:
 -Lead over partrition by and lag over partrition by 
  lead() to extract the next row of number
  lag() to extract the pre row of number
- 
+
+Solution 2.1:
+with cte as 
+(SELECT Num,
+LEAD(Num,1) over (order by id) as first_lead,
+LEAD(Num,2) over (order by id) as second_lead
+from logs)
+
+select distinct Num as ConsecutiveNums
+from cte
+where Num = first_lead and first_lead = second_lead
+
 Solution3: 
 Select distinct Num as ConsecutiveNums
 from Logs
 where (Id + 1, Num) in (select * from Logs) and (Id + 2, Num) in (select * from Logs)
+
+
  
  
 
