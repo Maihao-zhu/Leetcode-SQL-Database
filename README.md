@@ -218,8 +218,19 @@ WHERE referee_id <> 2 OR referee_id IS NULL
 Note:
 - 想要表示不等于，可以使用<> 或者！=
 
+## 586. Customer Placing the Largest Number of Orders
+My Answer:
+SELECT customer_number
+FROM 
+(
+SELECT customer_number, count(customer_number)
+FROM Orders
+group by customer_number
+order by 2 DESC
+LIMIT 1)a
 
-
+Notes:
+- 最初版本没有加上group by，说明对count函数理解不到位
 
 
 
