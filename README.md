@@ -183,3 +183,52 @@ WHERE t1 >= 100 AND t2 >= 100
 notes：
 1.使用left来截取日期函数
 
+# Date: Dec 17
+## 577. Employee Bonus
+Write an SQL query to report the name and bonus amount of each employee with a bonus less than 1000.
+My solution(wrong):
+SELECT e.name, b.bonus 
+FROM employee e
+JOIN bonus b
+ON e.empId=b.empId
+where b.bonus<1000 
+
+Solution1:
+SELECT e.name, b.bonus 
+FROM employee e
+LEFT JOIN bonus b
+ON e.empId=b.empId
+where b.bonus<1000 or b.bonus IS NULL
+
+Note:
+-Why use left join here: because we want to retain the employee info that even though they do not have bonus
+-forgot to add 'b.bonus IS NULL' 没有考虑到如果bonus没有的情况
+
+## 584. Find Customer Referee
+My Answer(accepted):
+SELECT C.name
+FROM Customer C
+WHERE c.referee_id !=2 or c.referee_id IS NULL
+
+Solution1:
+SELECT name 
+FROM customer
+WHERE referee_id <> 2 OR referee_id IS NULL
+ 
+Note:
+- 想要表示不等于，可以使用<> 或者！=
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
