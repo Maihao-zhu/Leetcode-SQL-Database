@@ -283,6 +283,16 @@ WHERE
 Notes:
 -在where clause里面加上subquery并不需要加上alias
 
+## 607. Sales Person
+My Answer(wrong):
+SELECT s.name 
+FROM salesperson s,Company c,orders o 
+On s.sales_id=o.sales_id,c.com_id=o.com_id
+where c.name<>'RED'
+
+Notes:
+-没有找到出错的原因？
+
 
 
 
