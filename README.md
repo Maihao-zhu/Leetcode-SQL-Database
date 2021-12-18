@@ -232,6 +232,58 @@ LIMIT 1)a
 Notes:
 - 最初版本没有加上group by，说明对count函数理解不到位
 
+## 597. Friend Requests I: Overall Acceptance Rate
+My answer:
+SELECT count(accepter_id)/count(sender_id)
+FROM FriendRequest f
+JOIN RequestAccepted r ON sender_id=requester_id
+
+Notes:
+-没理解题意
+-follow up question2较难，没做
+
+Solution1:
+https://leetcode.com/problems/friend-requests-i-overall-acceptance-rate/discuss/358575/Detailed-Explaination-for-Question-and-2-follow-up
+http://lixinchengdu.github.io/algorithmbook/leetcode/friend-requests-i-overall-acceptance-rate.html
+
+## 603. Consecutive Available Seats
+My Answer(wrong):
+using lead() and lag() function
+SELET seat_id
+FROM 
+(SELECT seat_id,
+ lead(seat_id) over (order by seat_id) as nex,
+ lag(seat_id) over (order by seat_id) as pre
+ from cinema
+ where next=seat_id+1,pre=seat_id-1
+)a
+WHERE free = 1
+Order by seat_id ASC
+
+Notes:
+-没发现哪里出了问题
+
+Solution1:
+SELECT seat_id
+FROM cinema
+WHERE
+    free = 1
+    AND
+    (
+        seat_id + 1 IN (
+            SELECT seat_id FROM cinema WHERE free = 1
+        )
+        OR
+        seat_id - 1 IN (
+            SELECT seat_id FROM cinema WHERE free = 1
+        )
+    )
+;
+
+Notes:
+-在where clause里面加上subquery并不需要加上alias
+
+
 
 
 
