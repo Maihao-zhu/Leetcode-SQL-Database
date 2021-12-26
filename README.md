@@ -291,7 +291,7 @@ On s.sales_id=o.sales_id,c.com_id=o.com_id
 where c.name<>'RED'
 
 Notes:
--没有找到出错的原因？
+-没有找到出错的原因
 
 
 
