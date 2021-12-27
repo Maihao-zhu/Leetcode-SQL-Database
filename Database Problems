@@ -1,46 +1,6 @@
 
 
-
-Note:
-1. dense_rank/rank/row_number的用法区别： https://blog.csdn.net/u011726005/article/details/94592866
-2. over（）括号里面应该排序，而不是在末尾加orderby
-3. rank涉及keyword，因此要加引号
-
-184. Department Highest Salary
-Write an SQL query to find employees who have the highest salary in each of the departments.
-
-My solution(wrong):
-with cte as(SELECT rank() over(Partrition by Department order by salary DESC) as rank1
-FROM Employee e
-JOIN Department d
-ON e.departmentId=d.id                              
-) a
-
-SELECT d.name AS Department, e.name AS Employee, e.salary as Salary
-FROM Employee e
-JOIN Department d
-ON e.departmentId=d.id
-WHERE a.rank1=1
-
-My solution(correct)
-select Department,Employee,Salary
-from(
-SELECT d.name AS Department, e.name AS Employee, e.salary as Salary, 
-rank() over(partition by d.name order by e.salary DESC) as rn
-FROM Employee e
-JOIN Department d
-ON e.departmentId=d.id
-) a
-where rn=1
-
-Runtime: 502 ms
-Notes:
--typo error: partition by 
--window function cannot be used in where clause
-
-185. Department Top Three Salaries
-My solution(correct)
-select Department,Employee,Salary
+Salary
 from(
 SELECT d.name AS Department, e.name AS Employee, e.salary as Salary, 
 dense_rank() over(partition by d.name order by e.salary DESC) as rn
