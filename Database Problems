@@ -1,14 +1,5 @@
 
 
-Salary
-from(
-SELECT d.name AS Department, e.name AS Employee, e.salary as Salary, 
-dense_rank() over(partition by d.name order by e.salary DESC) as rn
-FROM Employee e
-JOIN Department d
-ON e.departmentId=d.id
-) a
-where rn<=3
 Runtime: 149 ms
 
 ?question:为什么用rank不能accept，结果是一样的
