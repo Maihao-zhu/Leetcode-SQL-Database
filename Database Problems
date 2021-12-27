@@ -1,49 +1,6 @@
 
 
 
-
- (ORDER BY id)  AS prev
-    FROM logs
-    ) tb1
-WHERE num = next AND next = prev
-
-Time/Efficiency:533 ms
-Note:
--Lead over partrition by and lag over partrition by 
- lead() to extract the next row of number
- lag() to extract the pre row of number
-
-Solution 2.1:
-with cte as 
-(SELECT Num,
-LEAD(Num,1) over (order by id) as first_lead,
-LEAD(Num,2) over (order by id) as second_lead
-from logs)
-
-select distinct Num as ConsecutiveNums
-from cte
-where Num = first_lead and first_lead = second_lead
-
-Solution3: 
-Select distinct Num as ConsecutiveNums
-from Logs
-where (Id + 1, Num) in (select * from Logs) and (Id + 2, Num) in (select * from Logs)
-
-Date: Dec 16 2021
-178. Rank Scores
-Write an SQL query to rank the scores. The ranking should be calculated according to the following rules:
-The scores should be ranked from the highest to the lowest.
-If there is a tie between two scores, both should have the same ranking.
-After a tie, the next ranking number should be the next consecutive integer value. In other words, there should be no holes between ranks.
-My solution(wrong):
-SELECT Score, rank(Score) over (order by id ) AS ranking 
-FROM Scores 
-ORDER BY Score
-
-Solution1:
-SELECT score, dense_rank() over (order by score DESC) as 'rank'
-FROM Scores
-
 Note:
 1. dense_rank/rank/row_number的用法区别： https://blog.csdn.net/u011726005/article/details/94592866
 2. over（）括号里面应该排序，而不是在末尾加orderby
