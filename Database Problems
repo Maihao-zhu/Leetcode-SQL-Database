@@ -2,22 +2,7 @@
 
 
 
-
-Time/Efficiency:388 ms
-Note:
--Format: 
- SELECT/FROM/ON need to use capital letters
- line 1: select/from 
- line 2: join on and 
--When it comes to compare with themselves/find consecutive numbers, need to use self-join.
--Everytime，when finishing writting code, need to look back and sort the logic to see if anything else need to be added in the query: eg. distinct
-
-Solution2: window functions 
-SELECT DISTINCT num AS ConsecutiveNums
-FROM (
-    SELECT num,
-        LEAD(num) OVER (ORDER BY id)  AS next,
-        LAG(num) OVER (ORDER BY id)  AS prev
+ (ORDER BY id)  AS prev
     FROM logs
     ) tb1
 WHERE num = next AND next = prev
