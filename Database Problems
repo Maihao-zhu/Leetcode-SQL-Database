@@ -1,21 +1,5 @@
 
-177. Nth Highest Salary
-Write an SQL query to report the nth highest salary from the Employee table. If there is no nth highest salary, the query should report null.
-My solution 
-CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
-BEGIN
-Declare m INT; 
-set m=n-1;
 
-  RETURN (
-      # Write your MySQL query statement below.
-      Select salary
-      From Employee
-      Group by salary 
-      order by salary Desc
-      Limit m,1
-      
-  );
 END
 
 Time/Efficiency:359 ms
